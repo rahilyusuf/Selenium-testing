@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "@cucumber/cucumber": "^10.8.0",
+    "chai": "^5.1.1",
+    "selenium-webdriver": "^4.23.0"
+  },
+  "name": "testing",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "cucumber-js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
