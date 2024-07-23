@@ -8,16 +8,16 @@ setDefaultTimeout(60 * 1000)
 
 let driver
 
-Before(function() {
-  driver = initDriver()
+Before(async function() {
+  driver = await initDriver()
 })
 
-After(function() {
-  quitDriver(driver)
+After(async function() {
+  await quitDriver(driver)
 })
 
 Given('Iam in login page', async function() {
-  await driver.get("http://127.0.0.1:8000/")
+  await driver.get("http://127.0.0.1:8000")
 })
 
 When('I enter the registered username as {string}', async function(username) {
@@ -40,6 +40,30 @@ Given('I click on the login button', async function() {
 
 Then('I should redirect to Home page',async function() {
   const currentUrl = await driver.getCurrentUrl();
-  expect(currentUrl).to.include('http://127.0.0.1:8000/profile/rahil/');
+  expect(currentUrl).to.include('/profile/rahil/');
+  await driver.sleep(1000)
+})
+
+Given('I am on the login page', async function() {
+  await driver.get("http://127.0.0.1:8000")
+})
+
+When('I enter the following credentials:', async function(dataTable) {
+  const data = dataTable.hashes()
+  for (const row of data) {
+    for (const [field, value] of Object.entries(row)) {
+      if (value !== '<' + field + '>') {
+        await driver.findElement(By.name(field)).sendKeys(value)
+        await driver.sleep(1000)
+      }
+    }
+  }
+})
+
+
+
+Then('I should remain on the login page', async function() {
+  const currentUrl = await driver.getCurrentUrl();
+  expect(currentUrl).to.include('');
   await driver.sleep(1000)
 })

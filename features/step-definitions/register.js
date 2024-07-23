@@ -50,3 +50,28 @@ Then('I should redirect to Login page', async function() {
   await driver.sleep(1000)
 })
 
+Given('I am on the registration page', async function() {
+  await driver.get("http://127.0.0.1:8000/register")
+})
+
+When('I enter the following details:', async function(dataTable) {
+  const data = dataTable.hashes()
+  for (const row of data) {
+    for (const [field, value] of Object.entries(row)) {
+      if (value !== '<' + field + '>') {
+        await driver.findElement(By.name(field)).sendKeys(value)
+        await driver.sleep(1000)
+      }
+    }
+  }
+})
+
+
+
+Then('I should remain on the registration page', async function() {
+  const currentUrl = await driver.getCurrentUrl();
+  expect(currentUrl).to.include('/register');
+  await driver.sleep(1000)
+})
+
+
